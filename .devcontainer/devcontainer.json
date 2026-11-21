@@ -1,20 +1,115 @@
 {
-  "name": "Clock (Kali)",
+  "name": "Ubuntu 26.04 ROOT DinD SSH",
+
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "context": ".."
   },
-  "appAddress": "http://localhost:8080",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {
+      "version": "latest",
+      "moby": true,
+      "dockerDashComposeVersion": "latest",
+      "installDockerBuildx": true
+    },
+
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest",
+      "gatewayPorts": "yes"
+    }
+  },
+
+  "remoteUser": "root",
+  "updateRemoteUserUID": false,
+  "privileged": true,
+
+  "forwardPorts": [
+    2222,
+    2375,
+    3000,
+    3001,
+    4000,
+    4200,
+    5000,
+    5001,
+    5173,
+    5500,
+    5678,
+    6006,
+    7000,
+    8000,
+    8001,
+    8080,
+    8081,
+    8088,
+    8443,
+    8888,
+    9000,
+    9090,
+    9091,
+    9200,
+    9300,
+    10000,
+    15672,
+    27017
+  ],
+
+  "portsAttributes": {
+    "2222": {
+      "label": "SSH",
+      "onAutoForward": "notify"
+    },
+    "2375": {
+      "label": "Docker API PRIVATE",
+      "onAutoForward": "ignore",
+      "visibility": "private"
+    },
+    "3000": {
+      "label": "Development Web",
+      "onAutoForward": "openBrowser"
+    },
+    "5173": {
+      "label": "Vite",
+      "onAutoForward": "openBrowser"
+    },
+    "8000": {
+      "label": "Application API",
+      "onAutoForward": "openBrowser"
+    },
+    "8080": {
+      "label": "Web Server",
+      "onAutoForward": "openBrowser"
+    },
+    "8443": {
+      "label": "HTTPS",
+      "onAutoForward": "openBrowser",
+      "protocol": "https"
+    }
+  },
+
+  "otherPortsAttributes": {
+    "onAutoForward": "notify",
+    "visibility": "private"
+  },
+
+  "containerEnv": {
+    "DOCKER_BUILDKIT": "1",
+    "COMPOSE_DOCKER_CLI_BUILD": "1"
+  },
+
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-vscode.live-server"
+        "ms-azuretools.vscode-docker",
+        "ms-vscode-remote.remote-containers",
+        "eamodio.gitlens"
       ]
     }
   },
-  "remoteUser": "vscode",
-  "hostRequirements": {
-    "cpus": 2,
-    "memory": "8gb",
-    "storage": "32gb"
-  }
+
+  "postCreateCommand": "docker version",
+
+  "waitFor": "postCreateCommand"
 }
+JSON
