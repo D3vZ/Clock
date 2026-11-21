@@ -1,5 +1,6 @@
+
 {
-  "name": "Ubuntu 26.04 ROOT DinD SSH",
+  "name": "Kali Linux ROOT DinD SSH",
 
   "build": {
     "dockerfile": "Dockerfile",
@@ -112,4 +113,3 @@
 
   "waitFor": "postCreateCommand"
 }
-JSON
